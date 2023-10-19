@@ -7,6 +7,7 @@ public class Mouvement : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rigidbody2D;
     [SerializeField] private int mouvementSpeed = 3;
+    [SerializeField] private int maxJumps = 2, currentJumps = 0;
 
     private void Start()
     {
@@ -16,5 +17,10 @@ public class Mouvement : MonoBehaviour
     public void Move(int direction)
     {
         rigidbody2D.velocity = new Vector2((mouvementSpeed * direction), rigidbody2D.velocity.y);
+    }
+
+    public void Jump()
+    {
+
     }
 }
