@@ -15,6 +15,11 @@ public class PlayerMovements : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        IsPlayerOnGround();
+    }
+
     public void Move(int direction)
     {
         player.velocity = new Vector2((mouvementSpeed * direction), player.velocity.y);
