@@ -10,6 +10,8 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private int maxJumps = 2, currentJumps = 0;
     [SerializeField] private float jumpForce = 12.5f;
 
+    [SerializeField] private bool isPlayerOnGround = false;
+
     private void Start()
     {
         player = GetComponent<Rigidbody2D>();
@@ -17,11 +19,12 @@ public class PlayerMovements : MonoBehaviour
 
     private void Update()
     {
-        IsPlayerOnGround();
+        isPlayerOnGround = IsPlayerOnGround();
     }
 
     public void Move(int direction)
     {
+        FlipSprite();
         player.velocity = new Vector2((mouvementSpeed * direction), player.velocity.y);
     }
 
@@ -30,9 +33,17 @@ public class PlayerMovements : MonoBehaviour
         player.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
     }
 
+    private void FlipSprite()
+    {
+        if (player.velocity.x > 0)
+            transform.localScale = new Vector3(1, 1, 1);
+        else if (player.velocity.x < 0)
+            transform.localScale = new Vector3(-1, 1, 1);
+    }
+
     private bool IsPlayerOnGround()
     {
-        if (player.velocity.y < 0.05 || player.velocity.y > 0.05)
+        if (player.velocity.y < -0.05 || player.velocity.y > 0.05)
             return true;
         else
             return false;
