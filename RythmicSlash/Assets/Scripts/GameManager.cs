@@ -36,12 +36,12 @@ public class GameManager : MonoBehaviour
 
     public void SwitchScene(string scene)
     {
-        SceneManager.LoadScene(scene);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(scene);
     }
 
     public void SwitchScene(int index)
     {
-        SceneManager.LoadScene(index);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(index);
     }
 }
 

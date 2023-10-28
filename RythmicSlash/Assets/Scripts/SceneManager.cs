@@ -1,11 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneSwitcher : MonoBehaviour
+public class SceneManager : MonoBehaviour
 {
     public void SwitchScene(int scene)
     {
         GameManager.Instance.SwitchScene(scene);
+    }
+
+    public void QuitApplication()
+    {
+        Environment.Exit(0);
     }
 }

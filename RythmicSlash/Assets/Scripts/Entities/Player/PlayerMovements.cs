@@ -24,7 +24,7 @@ public class PlayerMovements : MonoBehaviour
 
     public void Move(int direction)
     {
-        FlipSprite();
+        FlipSprite(direction);
         player.velocity = new Vector2((mouvementSpeed * direction), player.velocity.y);
     }
 
@@ -33,11 +33,11 @@ public class PlayerMovements : MonoBehaviour
         player.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
     }
 
-    private void FlipSprite()
+    private void FlipSprite(int direction)
     {
-        if (player.velocity.x > 0)
+        if (direction == 1)
             transform.localScale = new Vector3(1, 1, 1);
-        else if (player.velocity.x < 0)
+        else if (direction == -1)
             transform.localScale = new Vector3(-1, 1, 1);
     }
 
