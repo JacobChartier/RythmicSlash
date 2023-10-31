@@ -10,6 +10,11 @@ public class SceneManager : MonoBehaviour
         GameManager.Instance.SwitchScene(scene);
     }
 
+    public void ShowPauseMenu()
+    {
+
+    }
+
     public void QuitApplication()
     {
         Application.Quit();

@@ -1,14 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CollectibleBehaviour : MonoBehaviour
 {
-    void Start()
-    {
+    [SerializeField] private UnityEvent OnCollisionWithPlayer;
 
-    }
-
-    void Update()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log($"Collision detected between: <color=#FFFFFF>{this.gameObject.name}</color> and <color=#FFFFFF>{collision.gameObject.name}</color>");
+            OnCollisionWithPlayer?.Invoke();
+        }
     }
 }

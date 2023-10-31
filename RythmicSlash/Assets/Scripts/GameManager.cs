@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void ChangeGameMode(GameMode mode)
     {
         gameMode = mode;
