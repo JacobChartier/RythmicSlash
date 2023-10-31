@@ -12,6 +12,6 @@ public class SceneManager : MonoBehaviour
 
     public void QuitApplication()
     {
-        Environment.Exit(0);
+        Application.Quit();
     }
 }

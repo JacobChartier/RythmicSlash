@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMovements : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D player;
+    [SerializeField] private ParticleSystem particles;
     [SerializeField] private int mouvementSpeed = 3;
     [SerializeField] private int maxJumps = 2, currentJumps = 0;
     [SerializeField] private float jumpForce = 12.5f;
@@ -15,6 +16,7 @@ public class PlayerMovements : MonoBehaviour
     private void Start()
     {
         player = GetComponent<Rigidbody2D>();
+        particles = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update()
@@ -26,6 +28,8 @@ public class PlayerMovements : MonoBehaviour
     {
         FlipSprite(direction);
         player.velocity = new Vector2((mouvementSpeed * direction), player.velocity.y);
+
+        MovingParticle();
     }
 
     public void Jump()
@@ -47,5 +51,10 @@ public class PlayerMovements : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    private void MovingParticle()
+    {
+        particles.Play();
     }
 }
