@@ -22,10 +22,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SwitchScene("MainMenu");
-        }
+
     }
 
     public void ChangeGameMode(GameMode mode)
