@@ -19,12 +19,12 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(moveLeftKey))
+        if (Input.GetKeyDown(moveLeftKey))
         {
             OnMoveLeftKeyPressed?.Invoke();
         }
 
-        if (Input.GetKey(moveRightKey))
+        if (Input.GetKeyDown(moveRightKey))
         {
             OnMoveRightKeyPressed?.Invoke();
         }
