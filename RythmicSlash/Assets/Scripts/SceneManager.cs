@@ -16,7 +16,6 @@ public class SceneManager : MonoBehaviour
         if(gameObject.CompareTag("PauseMenu"))
         {
             gameObject.SetActive(!gameObject.activeSelf);
-            
         }
     }
 
