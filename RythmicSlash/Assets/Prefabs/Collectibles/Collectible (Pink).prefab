@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1355395699302883146, guid: 39255b8d66bccb749adcd0987a223e3a, type: 3}
       propertyPath: m_Name
-      value: Collectible Variant
+      value: Collectible (Pink)
       objectReference: {fileID: 0}
     - target: {fileID: 3950436326932574287, guid: 39255b8d66bccb749adcd0987a223e3a, type: 3}
       propertyPath: m_LocalPosition.x

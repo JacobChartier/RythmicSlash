@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+
 public class PlayerMovements : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D player;
