@@ -40,22 +40,42 @@ public class PlayerMovements : MonoBehaviour
 
     public void Move(int direction)
     {
+        float moveAmount = direction * mouvementSpeed * Time.deltaTime;
+
         positionGoalReach = false;
         currentDirection = direction;
         positionGoal = new Vector3(Mathf.Round(player.position.x + direction), player.position.y);
 
         player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
 
+        player.velocity = new Vector2(moveAmount, player.velocity.y);
+
+        if (!isPlayerOnGround)
+        {
+            smallJumpMovement();
+        }
+
         FlipSprite(direction);
     }
 
     public void Jump()
     {
-        if (currentJumps < maxJumps)
+        if (isPlayerOnGround || currentJumps < maxJumps)
         {
+            player.velocity = new Vector2(player.velocity.x, 0);
             player.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             currentJumps++;
         }
+    }
+
+    public void smallJumpMovement()
+    {
+        if (player.velocity.y < 0)
+        {
+            player.velocity = new Vector2(player.velocity.x, 0);
+        }
+
+        player.AddForce(new Vector2(0, jumpForce * 0.5f), ForceMode2D.Impulse);
     }
 
     private void FlipSprite(int direction)

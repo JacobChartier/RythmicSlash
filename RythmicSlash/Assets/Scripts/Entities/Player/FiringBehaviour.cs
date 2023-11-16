@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FiringBehaviour : MonoBehaviour
 {
-
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileFirePoint;
 
@@ -17,7 +16,7 @@ public class FiringBehaviour : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(direction);
 
-        Debug.Log($"Firing projectile! {gameObject.name}");
+        Debug.Log($"<color=#FFFFFF>{gameObject.name}</color> fired a projectile!");
 
         Instantiate(projectilePrefab, projectileFirePoint.position, rotation);
     }

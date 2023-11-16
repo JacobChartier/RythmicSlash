@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
 
         CameraEffects.Instance.ShakeCamera(0.15f, 0.07f);
 
-        Destroy(particle, 1);
+        Destroy(particleGO.gameObject, 1);
         Destroy(this.gameObject);
     }
 }
