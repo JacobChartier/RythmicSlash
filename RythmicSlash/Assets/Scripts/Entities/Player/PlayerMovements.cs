@@ -61,15 +61,6 @@ public class PlayerMovements : MonoBehaviour
 
     }
 
-    public void smallJumpMouvement()
-    {
-        if (player.velocity.y < 0)
-        {
-           player.velocity = new Vector2(player.velocity.x, 0);
-        }
-        player.AddForce(new Vector2(0, jumpForce * 0.5f), ForceMode2D.Impulse);
-    }
-
     public void Jump()
     {
         if (isPlayerOnGround || currentJumps < maxJumps)

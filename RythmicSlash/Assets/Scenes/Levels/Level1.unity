@@ -801,8 +801,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9530a4f6766eaf548b3dbc8256a1d841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveLeftKey: 118
-  moveRightKey: 110
+  moveLeftKey: 97
+  moveRightKey: 100
   jumpKey: 32
   shootKey: 102
   pauseGameKey: 27
@@ -5567,15 +5567,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 444655891}
-  radiusDetection: 5
-  radiusAttack: 2
-  attackCooldown: 2
-  moveSpeed: 5
-  returnSpeed: 2
-  maxDistanceFromOriginal: 12
-  projectilePrefab: {fileID: 0}
-  projectileSpawnPoint: {fileID: 0}
-  originalPosition: {x: 0, y: 0, z: 0}
+  detectionRadius: 5
+  attackRadius: 2
 --- !u!1 &1826912141
 GameObject:
   m_ObjectHideFlags: 0
