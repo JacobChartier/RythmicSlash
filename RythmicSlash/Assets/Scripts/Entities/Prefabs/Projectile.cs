@@ -9,26 +9,39 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D projectile;
     [SerializeField] private ParticleSystem particle;
+    [SerializeField] private Queue<GameObject> pool;
 
     [SerializeField] private float lifeTime = 5, speedX, speedY;
 
     [SerializeField] private int damage = 2;
 
+    [SerializeField] private Coroutine coroutine;
+
     private void Start()
     {
         projectile = GetComponent<Rigidbody2D>();
+    }
 
-        if (projectile.rotation == 0)
+    private void OnEnable()
+    {
+        if (projectile.gameObject.transform.localScale == Vector3.left)
             projectile.AddForce(new Vector2(speedX, speedY), ForceMode2D.Impulse);
         else
             projectile.AddForce(new Vector2(-speedX, speedY), ForceMode2D.Impulse);
 
-        Destroy(this.gameObject, lifeTime);
+        Invoke("ReturnToQueue", lifeTime);
+        coroutine = StartCoroutine(ReturnToQueueCoroutine());
+    }
+
+    IEnumerator ReturnToQueueCoroutine()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        ReturnToQueue();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player")) return;
+        if (collision.gameObject.CompareTag("Player") | collision.gameObject.CompareTag("Projectile")) return;
 
         ParticleSystem particleGO = Instantiate(particle);
         particleGO.transform.position = this.transform.position;
@@ -36,6 +49,17 @@ public class Projectile : MonoBehaviour
         CameraEffects.Instance.ShakeCamera(0.15f, 0.07f);
 
         Destroy(particleGO.gameObject, 1);
-        Destroy(this.gameObject);
+        ReturnToQueue();
+    }
+
+    public void SetPoolReference(Queue<GameObject> pool)
+    {
+        this.pool = pool;
+    }
+
+    private void ReturnToQueue()
+    {
+        pool.Enqueue(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 }
