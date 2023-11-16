@@ -7,7 +7,7 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private Rigidbody2D player;
     [SerializeField] private int mouvementSpeed = 3;
     [SerializeField] private int maxJumps = 2, currentJumps = 0;
-    [SerializeField] private float jumpForce = 12.5f;
+    [SerializeField] private float jumpForce = 11.5f;
 
     [SerializeField] private bool isPlayerOnGround = false;
 
@@ -36,6 +36,8 @@ public class PlayerMovements : MonoBehaviour
             positionGoalReach = true;
         else if (!positionGoalReach)
             player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
+
+
     }
 
     public void Move(int direction)
@@ -56,6 +58,16 @@ public class PlayerMovements : MonoBehaviour
         }
 
         FlipSprite(direction);
+
+    }
+
+    public void smallJumpMouvement()
+    {
+        if (player.velocity.y < 0)
+        {
+           player.velocity = new Vector2(player.velocity.x, 0);
+        }
+        player.AddForce(new Vector2(0, jumpForce * 0.5f), ForceMode2D.Impulse);
     }
 
     public void Jump()
