@@ -45,6 +45,8 @@ public class CameraEffects : MonoBehaviour
         Vector3 targetPosition = Vector3.zero;
         targetPosition = Vector3.Lerp(this.transform.position, target.position, 1 * Time.deltaTime);
         targetPosition.z = -10;
+
+        this.transform.position = targetPosition;
     }
 
     public void ShakeCamera(float duration, float intensity)

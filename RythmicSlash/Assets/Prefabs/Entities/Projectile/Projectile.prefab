@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8901367123955559338}
   - component: {fileID: 8623826453113068011}
   - component: {fileID: 7875028798772422016}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Projectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 0}
   particle: {fileID: 1494144505899268995, guid: f6ed5ce4299a7594c93631944ca9fcf3, type: 3}
+  parent: {fileID: 0}
   lifeTime: 10
   speedX: 3
   speedY: 2
@@ -90,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3646205980558176243}
   - component: {fileID: 1888203708024997056}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3941480933604816852}
   - component: {fileID: 3041263804489979118}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

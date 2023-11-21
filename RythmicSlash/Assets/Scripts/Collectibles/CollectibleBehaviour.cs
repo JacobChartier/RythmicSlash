@@ -11,7 +11,6 @@ public class CollectibleBehaviour : MonoBehaviour
         {
             Debug.Log($"Collision detected between: <color=#FFFFFF>{this.gameObject.name}</color> and <color=#FFFFFF>{collision.gameObject.name}</color>");
 
-            CameraEffects.Instance.ShakeCamera(0.1f,0.5f);
             AudioManager.Instance.PlaySound("collectible_pop");
             OnCollisionWithPlayer?.Invoke();
         }
