@@ -10,7 +10,6 @@ public class FiringBehaviour : MonoBehaviour
     [SerializeField] private int initialPoolSize = 2;
     [SerializeField] private Queue<GameObject> projectilesPool = new Queue<GameObject>();
 
-
     private void Awake()
     {
         projectileParent = new GameObject();
@@ -24,17 +23,22 @@ public class FiringBehaviour : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             GameObject projectile = Instantiate(projectilePrefab);
-            projectile.transform.parent = projectileParent.transform;
             projectile.SetActive(false);
+            projectile.transform.parent = projectileParent.transform;
 
-            projectilesPool.Enqueue(projectile);
-
+            projectile.GetComponent<Projectile>().SetParentReference(gameObject);
+            projectile.GetComponent<Projectile>().SetProjectileReference(projectile.gameObject.GetComponent<Rigidbody2D>());
             projectile.GetComponent<Projectile>().SetPoolReference(projectilesPool);
+            
+            projectilesPool.Enqueue(projectile);
         }
     }
 
     public void FireProjectile()
     {
+        if (projectilesPool.Count <= 0)
+            AddProjectileToQueue(2);
+
         Vector3 direction = new Vector3();
 
         if (gameObject.transform.localScale.x == -1)
@@ -42,15 +46,10 @@ public class FiringBehaviour : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(direction);
 
-        if (projectilesPool.Count <= 0)
-        {
-            AddProjectileToQueue(2);
-        }
-
         GameObject projectile = projectilesPool.Dequeue();
         projectile.SetActive(true);
         projectile.transform.position = projectileFirePoint.position;
         projectile.transform.rotation = rotation;
-        projectile.GetComponent<Projectile>().SetParentReference(this.gameObject);
+        projectile.GetComponent<Projectile>().SetParentReference(gameObject);
     }
 }

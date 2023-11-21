@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
+        CameraEffects.Instance.FollowTarget();
     }
 
     public void ChangeGameMode(GameMode mode)

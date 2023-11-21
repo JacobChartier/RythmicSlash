@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -12,11 +10,8 @@ public class Projectile : MonoBehaviour
     [SerializeField] private Queue<GameObject> pool;
     [SerializeField] private GameObject parent;
 
-    [SerializeField] private float lifeTime = 5, speedX, speedY;
-
+    [SerializeField] private float lifeTime = 5, speedX = 3, speedY = 2;
     [SerializeField] private int damage = 2;
-
-    [SerializeField] private Coroutine coroutine;
 
     private void Start()
     {
@@ -26,18 +21,11 @@ public class Projectile : MonoBehaviour
     private void OnEnable()
     {
         if (parent.transform.localScale.x == 1)
-            projectile.AddForce(new Vector2(speedX, speedY), ForceMode2D.Impulse);
+            this.projectile.AddForce(new Vector2(speedX, speedY), ForceMode2D.Impulse);
         else
-            projectile.AddForce(new Vector2(-speedX, speedY), ForceMode2D.Impulse);
+            this.projectile.AddForce(new Vector2(-speedX, speedY), ForceMode2D.Impulse);
 
         Invoke("ReturnToQueue", lifeTime);
-        coroutine = StartCoroutine(ReturnToQueueCoroutine());
-    }
-
-    IEnumerator ReturnToQueueCoroutine()
-    {
-        yield return new WaitForSeconds(lifeTime);
-        ReturnToQueue();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -61,6 +49,11 @@ public class Projectile : MonoBehaviour
     public void SetParentReference(GameObject parent)
     {
         this.parent = parent;
+    }
+
+    public void SetProjectileReference(Rigidbody2D projectile)
+    {
+        this.projectile = projectile;
     }
 
     private void ReturnToQueue()

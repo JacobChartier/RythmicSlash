@@ -9,7 +9,7 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private int maxJumps = 2, currentJumps = 0;
     [SerializeField] private float jumpForce = 11.5f;
 
-    [SerializeField] private bool isPlayerOnGround = false;
+    [SerializeField] private bool isPlayerOnGround = true;
 
     [Header("Player movement")]
     [SerializeField] Vector3 velocity;
@@ -21,8 +21,8 @@ public class PlayerMovements : MonoBehaviour
     {
         player = GetComponent<Rigidbody2D>();
 
-        positionGoal = new Vector3(player.position.x, player.position.y - 0.5f);
         velocity = Vector3.zero;
+        positionGoal = new Vector3(player.position.x, player.position.y - 0.5f);
     }
 
     private void Update()
@@ -36,8 +36,6 @@ public class PlayerMovements : MonoBehaviour
             positionGoalReach = true;
         else if (!positionGoalReach)
             player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
-
-
     }
 
     public void Move(int direction)
@@ -58,7 +56,6 @@ public class PlayerMovements : MonoBehaviour
         }
 
         FlipSprite(direction);
-
     }
 
     public void Jump()
@@ -91,7 +88,7 @@ public class PlayerMovements : MonoBehaviour
 
     private bool IsPlayerOnGround()
     {
-        if (player.velocity.y < -0.05 || player.velocity.y > 0.05)
+        if (player.velocity.y < -0.02 || player.velocity.y > 0.02)
             return true;
         else
             return false;

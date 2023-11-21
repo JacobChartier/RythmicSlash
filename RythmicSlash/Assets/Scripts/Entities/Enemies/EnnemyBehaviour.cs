@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-
     public Transform player;
     public float detectionRadius = 5f;
     public float attackRadius = 2f;
@@ -24,7 +23,7 @@ public class EnemyAI : MonoBehaviour
     private float lastAttackTime;
     private EnemyState currentState = EnemyState.Normal;
 
-    private enum EnemyStateà
+    private enum EnemyState
     {
         Normal,
         MoveToPlayer,
@@ -52,7 +51,7 @@ public class EnemyAI : MonoBehaviour
                 AttackPlayer();
                 break;
             case EnemyState.ReturnToOriginal:
-                ReturnToOriginalPosition();
+                returningToOriginalPosition();
                 break;
         }
     }
