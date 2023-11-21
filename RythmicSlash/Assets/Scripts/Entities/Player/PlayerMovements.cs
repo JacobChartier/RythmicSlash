@@ -29,7 +29,7 @@ public class PlayerMovements : MonoBehaviour
     {
         isPlayerOnGround = IsPlayerOnGround();
 
-        if (isPlayerOnGround)
+        if (!isPlayerOnGround)
             currentJumps = 0;
 
         if (player.transform.position == positionGoal)
@@ -40,6 +40,8 @@ public class PlayerMovements : MonoBehaviour
 
     public void Move(int direction)
     {
+        if (isPlayerOnGround) return;
+        
         float moveAmount = direction * mouvementSpeed * Time.deltaTime;
 
         positionGoalReach = false;
@@ -60,7 +62,7 @@ public class PlayerMovements : MonoBehaviour
 
     public void Jump()
     {
-        if (isPlayerOnGround || currentJumps < maxJumps)
+        if (!isPlayerOnGround || currentJumps < maxJumps)
         {
             player.velocity = new Vector2(player.velocity.x, 0);
             player.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
