@@ -24,7 +24,7 @@ public class EnemyAI : MonoBehaviour
     private float lastAttackTime;
     private EnemyState currentState = EnemyState.Normal;
 
-    private enum EnemyStateà
+    private enum EnemyState
     {
         Normal,
         MoveToPlayer,
@@ -52,7 +52,7 @@ public class EnemyAI : MonoBehaviour
                 AttackPlayer();
                 break;
             case EnemyState.ReturnToOriginal:
-                ReturnToOriginalPosition();
+                returningToOriginalPosition();
                 break;
         }
     }
