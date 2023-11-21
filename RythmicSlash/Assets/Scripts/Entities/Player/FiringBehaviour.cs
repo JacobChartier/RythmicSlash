@@ -35,14 +35,12 @@ public class FiringBehaviour : MonoBehaviour
 
     public void FireProjectile()
     {
-        Vector3 direction = new Vector3(0, 0, 0);
+        Vector3 direction = new Vector3();
 
-        if (transform.localScale.x == -1)
+        if (gameObject.transform.localScale.x == -1)
             direction = new Vector3(0, 0, 180);
 
         Quaternion rotation = Quaternion.Euler(direction);
-
-        Debug.Log($"<color=#FFFFFF>{gameObject.name}</color> fired a projectile!");
 
         if (projectilesPool.Count <= 0)
         {
@@ -53,5 +51,6 @@ public class FiringBehaviour : MonoBehaviour
         projectile.SetActive(true);
         projectile.transform.position = projectileFirePoint.position;
         projectile.transform.rotation = rotation;
+        projectile.GetComponent<Projectile>().SetParentReference(this.gameObject);
     }
 }

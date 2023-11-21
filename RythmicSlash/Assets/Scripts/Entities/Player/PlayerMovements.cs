@@ -84,9 +84,9 @@ public class PlayerMovements : MonoBehaviour
     private void FlipSprite(int direction)
     {
         if (direction == 1)
-            transform.localScale = new Vector3(1, 1, 1);
+            player.transform.localScale = new Vector3(1, 1, 1);
         else if (direction == -1)
-            transform.localScale = new Vector3(-1, 1, 1);
+            player.transform.localScale = new Vector3(-1, 1, 1);
     }
 
     private bool IsPlayerOnGround()

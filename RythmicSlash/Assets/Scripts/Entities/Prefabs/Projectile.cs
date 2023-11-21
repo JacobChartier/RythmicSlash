@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private Rigidbody2D projectile;
     [SerializeField] private ParticleSystem particle;
     [SerializeField] private Queue<GameObject> pool;
+    [SerializeField] private GameObject parent;
 
     [SerializeField] private float lifeTime = 5, speedX, speedY;
 
@@ -24,7 +25,7 @@ public class Projectile : MonoBehaviour
 
     private void OnEnable()
     {
-        if (projectile.gameObject.transform.localScale == Vector3.left)
+        if (parent.transform.localScale.x == 1)
             projectile.AddForce(new Vector2(speedX, speedY), ForceMode2D.Impulse);
         else
             projectile.AddForce(new Vector2(-speedX, speedY), ForceMode2D.Impulse);
@@ -55,6 +56,11 @@ public class Projectile : MonoBehaviour
     public void SetPoolReference(Queue<GameObject> pool)
     {
         this.pool = pool;
+    }
+
+    public void SetParentReference(GameObject parent)
+    {
+        this.parent = parent;
     }
 
     private void ReturnToQueue()
