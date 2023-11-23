@@ -361,7 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 206546403}
   - component: {fileID: 206546404}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -761,7 +761,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 387821420}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Direction
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
@@ -798,7 +798,7 @@ GameObject:
   - component: {fileID: 444655894}
   - component: {fileID: 444655895}
   - component: {fileID: 444655896}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -845,7 +845,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 519420032}
   - {fileID: 206546403}
   - {fileID: 387821420}
   - {fileID: 688185337}
@@ -885,8 +884,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9530a4f6766eaf548b3dbc8256a1d841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveLeftKey: 118
-  moveRightKey: 110
+  moveLeftKey: 97
+  moveRightKey: 100
   jumpKey: 32
   shootKey: 102
   pauseGameKey: 27
@@ -3977,7 +3976,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -4052,11 +4051,11 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 444655891}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -4162,7 +4161,7 @@ GameObject:
   - component: {fileID: 688185337}
   - component: {fileID: 688185338}
   - component: {fileID: 688185339}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6422,6 +6421,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 329252948}
   - {fileID: 1870785316}
+  - {fileID: 519420032}
   - {fileID: 444655891}
   - {fileID: 1736619611}
   - {fileID: 1121671351}
