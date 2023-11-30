@@ -7,9 +7,12 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private Rigidbody2D player;
     [SerializeField] private int mouvementSpeed = 3;
     [SerializeField] private int maxJumps = 2, currentJumps = 0;
-    [SerializeField] private float jumpForce = 11.5f;
+    [SerializeField] private float jumpForce = 12.5f;
+    [SerializeField] private float attackCooldown = 5f;
 
     [SerializeField] private bool isPlayerOnGround = true;
+    private bool canAttack = true; // Permet d'attaquer uniquement si cette variable est vraie
+    private float timeSinceLastAttack = 0f;
 
     [Header("Player movement")]
     [SerializeField] Vector3 velocity;
@@ -17,12 +20,16 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] public bool positionGoalReach = false;
     [SerializeField] public int currentDirection = 0;
 
+    private FiringBehaviour firingBehaviour;
+
     private void Start()
     {
         player = GetComponent<Rigidbody2D>();
 
         velocity = Vector3.zero;
         positionGoal = new Vector3(player.position.x, player.position.y - 0.5f);
+
+        firingBehaviour = FindObjectOfType<FiringBehaviour>();
     }
 
     private void Update()
@@ -36,6 +43,13 @@ public class PlayerMovements : MonoBehaviour
             positionGoalReach = true;
         else if (!positionGoalReach)
             player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
+
+        // Gestion du cooldown d'attaque
+        timeSinceLastAttack += Time.deltaTime;
+        if (timeSinceLastAttack >= attackCooldown)
+        {
+            canAttack = true;
+        }
     }
 
     public void Move(int direction)
@@ -59,6 +73,15 @@ public class PlayerMovements : MonoBehaviour
 
         FlipSprite(direction);
     }
+    public void smallJumpMovement()
+    {
+        if (player.velocity.y < 0)
+        {
+            player.velocity = new Vector2(player.velocity.x, 0);
+        }
+
+        player.AddForce(new Vector2(0, jumpForce * 0.5f), ForceMode2D.Impulse);
+    }
 
     public void Jump()
     {
@@ -70,14 +93,15 @@ public class PlayerMovements : MonoBehaviour
         }
     }
 
-    public void smallJumpMovement()
+    public void Attack()
     {
-        if (player.velocity.y < 0)
+        if(canAttack)
         {
-            player.velocity = new Vector2(player.velocity.x, 0);
-        }
+            firingBehaviour.FireProjectile();
 
-        player.AddForce(new Vector2(0, jumpForce * 0.5f), ForceMode2D.Impulse);
+            canAttack = false;
+            timeSinceLastAttack = 0;
+        }
     }
 
     private void FlipSprite(int direction)

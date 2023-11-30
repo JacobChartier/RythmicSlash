@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,17 +6,15 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
-    public float detectionRadius = 5f;
-    public float attackRadius = 2f;
-    private float moveSpeed = 4f;
+    [SerializeField] private float detectionRadius = 35f;
+    public float attackRadius = 25f;
+    private float moveSpeed = 3f;
+    private float chaseSpeed = 6f;
     public float attackCooldown = 3f;
     public float jumpForce = 0.2f;
 
     private Rigidbody2D enemyRb;
     private Vector3 originalPosition;
-    private bool isReturning = false;
-    private bool isAttacking = false;
-    private bool isEnnemyOnGround = false;
     private bool isPlayerDetected = false;
 
     public delegate void AttackEventHandler();
@@ -25,8 +24,8 @@ public class EnemyAI : MonoBehaviour
 
     private enum EnemyState
     {
-        Normal,
-        MoveToPlayer,
+        Normal, //Patrol
+        MoveToPlayer, //Chase
         Attack,
         ReturnToOriginal,
     }
@@ -35,6 +34,7 @@ public class EnemyAI : MonoBehaviour
     {
         originalPosition = transform.position;
         lastAttackTime = -attackCooldown;
+        enemyRb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -45,65 +45,68 @@ public class EnemyAI : MonoBehaviour
                 NormalBehavior();
                 break;
             case EnemyState.MoveToPlayer:
-                MoveToPlayer();
+                
                 break;
             case EnemyState.Attack:
                 AttackPlayer();
                 break;
             case EnemyState.ReturnToOriginal:
-                returningToOriginalPosition();
+                ReturnToOriginalPosition();
                 break;
+
         }
     }
 
     void NormalBehavior()
     {
         // Vérifier la distance au joueur
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
-        if (distanceToPlayer <= detectionRadius)
+        if (distanceToPlayer < detectionRadius)
         {
             // Le joueur est détecté
             isPlayerDetected = true;
             currentState = EnemyState.MoveToPlayer;
         }
-        else if (isPlayerDetected)
+        else if (!isPlayerDetected)
         {
-            // Le joueur s'est déplacé hors de la zone de détection
-            currentState = EnemyState.ReturnToOriginal;
-        }
+            // Déplacer l'ennemi entre sa position d'origine et un point légèrement décalé
+            Vector2 PatrolPosition = originalPosition + new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
+            Vector2 direction = (PatrolPosition -(Vector2)transform.position).normalized;
+            enemyRb.velocity = direction * moveSpeed;
 
-        // Autres comportements normaux ici
+            smallJumpMovement();
+        }
     }
 
     void MoveToPlayer()
     {
-        // Orientation directe vers le joueur
-        transform.LookAt(player);
 
         // Déplacement vers le joueur
-        float step = moveSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, player.position, step);
+        Vector2 direction = (player.position - transform.position).normalized;
+        enemyRb.velocity = direction * chaseSpeed;
 
         // Vérifier si l'ennemi est assez proche pour attaquer
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        if (distanceToPlayer <= attackRadius)
+        if (distanceToPlayer < attackRadius)
         {
             currentState = EnemyState.Attack;
         }
+        if (distanceToPlayer > detectionRadius || transform.position == originalPosition)
+        {
+            isPlayerDetected = false;
+            currentState = EnemyState.Normal;
+        }
     }
-    void FlipSprite(int direction)
+
+    public void smallJumpMovement()
     {
-        if (direction > 0)
+        if (enemyRb.velocity.y < 0)
         {
-            // Laissez la sprite comme elle est (face vers la droite)
-            transform.localScale = new Vector3(1, 1, 1);
+            enemyRb.velocity = new Vector2(enemyRb.velocity.x, 0);
         }
-        else if (direction < 0)
-        {
-            // Inverser la sprite (face vers la gauche)
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
+
+        enemyRb.AddForce(new Vector2(0, jumpForce * 0.5f), ForceMode2D.Impulse);
     }
 
     bool canAttack()
@@ -127,28 +130,17 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // Assurez-vous d'appeler cette fonction lorsque l'ennemi est au sol
-    void SetIsEnemyOnGround(bool isOnGround)
+    void ReturnToOriginalPosition()
     {
-        isEnnemyOnGround = isOnGround;
-    }
+        // Retourner à la position d'origine
+        Vector2 direction = (originalPosition - transform.position).normalized;
+        enemyRb.velocity = direction * moveSpeed;
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
+        // Vérifier si l'ennemi est retourné à sa position d'origine
+        if (Vector2.Distance(transform.position, originalPosition) < 0.1f)
         {
-            // Le joueur est détecté, passe en mode attaque
-            isAttacking = true;
-        }
-    }
-
-    void returningToOriginalPosition()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, originalPosition, moveSpeed * Time.deltaTime);
-
-        if (transform.position == originalPosition)
-        {
-            isReturning = false;
+            enemyRb.velocity = Vector2.zero;
+            currentState = EnemyState.Normal;
         }
     }
 }
