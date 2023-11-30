@@ -7,7 +7,6 @@ public class EnnemyProjectile : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
 
-
     // Start is called before the first frame update
     void Start()
     {
