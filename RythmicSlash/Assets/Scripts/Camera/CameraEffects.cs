@@ -6,12 +6,15 @@ public class CameraEffects : MonoBehaviour
 {
     public static CameraEffects Instance;
 
-    [SerializeField] private float duration, intensity, timer;
-    [SerializeField] private bool isShaking;
-
-    [SerializeField] private Vector3 initialPosition;
-
+    [Header("Camera Follow Effect")]
     [SerializeField] private Transform target;
+
+    [Header("Camera Shake Effect")]
+    [SerializeField] private bool isShaking;
+    [SerializeField] private Vector3 initialPosition;
+    [SerializeField] private float duration, intensity, timer;
+
+
 
     private void Awake()
     {
