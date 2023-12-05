@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlayerMovements : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D player;
-    [SerializeField] private int mouvementSpeed = 3;
+    [SerializeField] private int movementSpeed = 3;
     [SerializeField] private int maxJumps = 2, currentJumps = 0;
-    [SerializeField] private float jumpForce = 12.5f;
+    [SerializeField] private float jumpForce = 2;
     [SerializeField] private float attackCooldown = 5f;
+    [SerializeField] private bool LookingLeft;
 
     [SerializeField] private bool isPlayerOnGround = true;
     private bool canAttack = true; // Permet d'attaquer uniquement si cette variable est vraie
@@ -42,7 +43,8 @@ public class PlayerMovements : MonoBehaviour
         if (player.transform.position == positionGoal)
             positionGoalReach = true;
         else if (!positionGoalReach)
-            player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
+            player.transform.position = Vector3.Lerp(player.transform.position, positionGoal, Time.deltaTime);
+            //player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
 
         // Gestion du cooldown d'attaque
         timeSinceLastAttack += Time.deltaTime;
@@ -54,31 +56,62 @@ public class PlayerMovements : MonoBehaviour
 
     public void Move(int direction)
     {
-        float moveAmount = direction * mouvementSpeed * Time.deltaTime;
+        float moveAmount = direction * movementSpeed * Time.deltaTime;
 
         positionGoalReach = false;
         currentDirection = direction;
         positionGoal = new Vector3(Mathf.Round(player.position.x + direction), player.position.y);
 
-        player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
+        player.transform.position = Vector3.Lerp(player.transform.position, positionGoal, Time.deltaTime);
+        //player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
 
         player.velocity = new Vector2(moveAmount, player.velocity.y);
 
         if (!isPlayerOnGround)
         {
-            Jump(0.5f);
+            SmallJump(direction);
+            movementSpeed = 3;
         }
 
         FlipSprite(direction);
     }
 
-    public void Jump(float intensity = 1.0f)
+    private void SmallJump(int direction)
     {
         if (!isPlayerOnGround || currentJumps < maxJumps)
         {
             player.velocity = new Vector2(player.velocity.x, 0);
-            player.AddForce(new Vector2(0, jumpForce * intensity), ForceMode2D.Impulse);
+            player.AddForce(new Vector2((direction * 0.6f), jumpForce), ForceMode2D.Impulse);
             currentJumps++;
+        }
+    }
+
+    public void Jump(float intensity)
+    {
+        if (!isPlayerOnGround || currentJumps < maxJumps)
+        {
+            if (LookingLeft)
+            {
+                player.velocity = new Vector2(player.velocity.x, 0);
+                player.AddForce(new Vector2(-movementSpeed, jumpForce * intensity), ForceMode2D.Impulse);
+
+                positionGoal = new Vector3(Mathf.Round(player.position.x + -3), player.position.y);
+                player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
+
+                currentJumps++;
+                movementSpeed = 3;
+            }
+            else
+            {
+                player.velocity = new Vector2(player.velocity.x, 0);
+                player.AddForce(new Vector2(movementSpeed, jumpForce * intensity), ForceMode2D.Impulse);
+
+                positionGoal = new Vector3(Mathf.Round(player.position.x + 3), player.position.y);
+                player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
+
+                currentJumps++;
+                movementSpeed = 3;
+            }
         }
     }
 
@@ -96,9 +129,15 @@ public class PlayerMovements : MonoBehaviour
     private void FlipSprite(int direction)
     {
         if (direction == 1)
+        {
+            LookingLeft = false;
             player.transform.localScale = new Vector3(1, 1, 1);
+        }
         else if (direction == -1)
+        {
+            LookingLeft = true;
             player.transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
     private bool IsPlayerOnGround()
