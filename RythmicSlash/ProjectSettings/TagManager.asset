@@ -9,6 +9,7 @@ TagManager:
   - Collectible
   - PauseMenu
   - Projectile
+  - Spike
   layers:
   - Default
   - TransparentFX
