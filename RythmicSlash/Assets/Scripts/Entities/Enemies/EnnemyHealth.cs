@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class EnnemyHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] Transform SpawnPoint;
 
-    // Update is called once per frame
-    void Update()
+    public void ResetEnemy()
     {
-        
+        Health health = GetComponent<Health>();
+
+        health.currentHealth = 10;
+        this.transform.position = SpawnPoint.position;
+        this.gameObject.SetActive(true);
     }
 }
