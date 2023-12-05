@@ -14,8 +14,6 @@ public class CameraEffects : MonoBehaviour
     [SerializeField] private Vector3 initialPosition;
     [SerializeField] private float duration, intensity, timer;
 
-
-
     private void Awake()
     {
         if (Instance == null)

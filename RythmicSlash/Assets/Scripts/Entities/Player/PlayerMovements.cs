@@ -54,8 +54,6 @@ public class PlayerMovements : MonoBehaviour
 
     public void Move(int direction)
     {
-        if (isPlayerOnGround) return;
-        
         float moveAmount = direction * mouvementSpeed * Time.deltaTime;
 
         positionGoalReach = false;
@@ -68,27 +66,18 @@ public class PlayerMovements : MonoBehaviour
 
         if (!isPlayerOnGround)
         {
-            smallJumpMovement();
+            Jump(0.5f);
         }
 
         FlipSprite(direction);
     }
-    public void smallJumpMovement()
-    {
-        if (player.velocity.y < 0)
-        {
-            player.velocity = new Vector2(player.velocity.x, 0);
-        }
 
-        player.AddForce(new Vector2(0, jumpForce * 0.5f), ForceMode2D.Impulse);
-    }
-
-    public void Jump()
+    public void Jump(float intensity = 1.0f)
     {
         if (!isPlayerOnGround || currentJumps < maxJumps)
         {
             player.velocity = new Vector2(player.velocity.x, 0);
-            player.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            player.AddForce(new Vector2(0, jumpForce * intensity), ForceMode2D.Impulse);
             currentJumps++;
         }
     }
