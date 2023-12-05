@@ -93,10 +93,11 @@ public class PlayerMovements : MonoBehaviour
             if (LookingLeft)
             {
                 player.velocity = new Vector2(player.velocity.x, 0);
-                player.AddForce(new Vector2(-movementSpeed, jumpForce * intensity), ForceMode2D.Impulse);
+                player.AddForce(new Vector2(-movementSpeed * 0.85f, jumpForce * intensity), ForceMode2D.Impulse);
 
-                positionGoal = new Vector3(Mathf.Round(player.position.x + -3), player.position.y);
-                player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
+                positionGoal = new Vector3(Mathf.Round(player.position.x + -3f), player.position.y);
+                player.transform.position = Vector3.Lerp(player.transform.position, positionGoal, Time.deltaTime);
+                //player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
 
                 currentJumps++;
                 movementSpeed = 3;
@@ -104,10 +105,11 @@ public class PlayerMovements : MonoBehaviour
             else
             {
                 player.velocity = new Vector2(player.velocity.x, 0);
-                player.AddForce(new Vector2(movementSpeed, jumpForce * intensity), ForceMode2D.Impulse);
+                player.AddForce(new Vector2(movementSpeed * 0.85f, jumpForce * intensity), ForceMode2D.Impulse);
 
-                positionGoal = new Vector3(Mathf.Round(player.position.x + 3), player.position.y);
-                player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
+                positionGoal = new Vector3(Mathf.Round(player.position.x + 3f), player.position.y);
+                player.transform.position = Vector3.Lerp(player.transform.position, positionGoal, Time.deltaTime);
+                //player.transform.position = Vector3.SmoothDamp(player.transform.position, positionGoal, ref velocity, 0.1f);
 
                 currentJumps++;
                 movementSpeed = 3;
