@@ -32,6 +32,8 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") | collision.gameObject.CompareTag("Projectile")) return;
 
+        collision.gameObject.GetComponent<Health>().TakeDamage(2);
+
         ParticleSystem particleGO = Instantiate(particle);
         particleGO.transform.position = this.transform.position;
 
